@@ -13,43 +13,43 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProjectionService {
 
-    private final ProjectionRepository projectionRepository;
+  private final ProjectionRepository projectionRepository;
 
-    @Transactional(readOnly = true)
-    public List<Projection> getAll() {
-        return projectionRepository.findAll();
-    }
+  @Transactional(readOnly = true)
+  public List<Projection> getAll() {
+    return projectionRepository.findAll();
+  }
 
-    @Transactional(readOnly = true)
-    public List<Projection> getByMovie(UUID movieId) {
-        return projectionRepository.findByMovie_Id(movieId);
-    }
+  @Transactional(readOnly = true)
+  public List<Projection> getByMovie(UUID movieId) {
+    return projectionRepository.findByMovie_Id(movieId);
+  }
 
-    @Transactional(readOnly = true)
-    public Projection getById(UUID id) {
-        return projectionRepository
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException("Projection not found: " + id));
-    }
+  @Transactional(readOnly = true)
+  public Projection getById(UUID id) {
+    return projectionRepository
+        .findById(id)
+        .orElseThrow(() -> new NotFoundException("Projection not found: " + id));
+  }
 
-    @Transactional
-    public Projection save(Projection projection) {
-        return projectionRepository.save(projection);
-    }
+  @Transactional
+  public Projection save(Projection projection) {
+    return projectionRepository.save(projection);
+  }
 
-    @Transactional
-    public void delete(UUID id) {
-        Projection projection = getById(id);
-        projectionRepository.delete(projection);
-    }
+  @Transactional
+  public void delete(UUID id) {
+    Projection projection = getById(id);
+    projectionRepository.delete(projection);
+  }
 
-    @Transactional
-    public Projection update(UUID id, Projection projection) {
-        try {
-            getById(id);
-            return projectionRepository.save(projection);
-        } catch (Exception e) {
-            throw new NotFoundException("Projection not found: " + id);
-        }
+  @Transactional
+  public Projection update(UUID id, Projection projection) {
+    try {
+      getById(id);
+      return projectionRepository.save(projection);
+    } catch (Exception e) {
+      throw new NotFoundException("Projection not found: " + id);
     }
+  }
 }
