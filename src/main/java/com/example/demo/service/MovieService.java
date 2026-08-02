@@ -37,4 +37,14 @@ public class MovieService {
     Movie movie = getById(id);
     movieRepository.delete(movie);
   }
+
+  @Transactional
+  public Movie update(UUID id,Movie movie) {
+    try {
+      getById(id);
+      return movieRepository.save(movie);
+    }catch (Exception e) {
+      throw new NotFoundException("Movie not found: " + id);
+    }
+  }
 }

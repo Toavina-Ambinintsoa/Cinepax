@@ -37,4 +37,14 @@ public class RoomService {
     Room room = getById(id);
     roomRepository.delete(room);
   }
+
+  @Transactional
+  public Room update(UUID id,Room room) {
+    try {
+      getById(id);
+      return roomRepository.save(room);
+    }catch (Exception e) {
+      throw new NotFoundException("Room not found: " + id);
+    }
+  }
 }

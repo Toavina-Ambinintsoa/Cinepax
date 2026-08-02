@@ -37,4 +37,14 @@ public class SeatService {
     Seat seat = getById(id);
     seatRepository.delete(seat);
   }
+
+  @Transactional
+  public Seat update(UUID id,Seat seat) {
+    try {
+      getById(id);
+      return seatRepository.save(seat);
+    }catch (Exception e) {
+      throw new NotFoundException("Seat not found: " + id);
+    }
+  }
 }
