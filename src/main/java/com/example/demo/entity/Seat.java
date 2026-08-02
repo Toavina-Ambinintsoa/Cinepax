@@ -1,10 +1,7 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.util.UUID;
+import jakarta.persistence.*;
+import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +16,11 @@ public class Seat {
   private UUID id;
 
   private String number;
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "room_id", nullable = false)
+  private Room room;
+
+  @ManyToMany(mappedBy = "seats")
+  private List<Reservation> reservations = new ArrayList<>();
 }
