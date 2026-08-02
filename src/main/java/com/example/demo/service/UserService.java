@@ -13,38 +13,38 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
+  @Transactional(readOnly = true)
+  public List<User> getAll() {
+    return userRepository.findAll();
+  }
 
-    @Transactional(readOnly = true)
-    public User getById(UUID id) {
-        return userRepository
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found: " + id));
-    }
+  @Transactional(readOnly = true)
+  public User getById(UUID id) {
+    return userRepository
+        .findById(id)
+        .orElseThrow(() -> new NotFoundException("User not found: " + id));
+  }
 
-    @Transactional
-    public User save(User user) {
-        return userRepository.save(user);
-    }
+  @Transactional
+  public User save(User user) {
+    return userRepository.save(user);
+  }
 
-    @Transactional
-    public void delete(UUID id) {
-        User user = getById(id);
-        userRepository.delete(user);
-    }
+  @Transactional
+  public void delete(UUID id) {
+    User user = getById(id);
+    userRepository.delete(user);
+  }
 
-    @Transactional
-    public User update(UUID id, User user) {
-        try {
-            getById(id);
-            return userRepository.save(user);
-        } catch (Exception e) {
-            throw new NotFoundException("User not found: " + id);
-        }
+  @Transactional
+  public User update(UUID id, User user) {
+    try {
+      getById(id);
+      return userRepository.save(user);
+    } catch (Exception e) {
+      throw new NotFoundException("User not found: " + id);
     }
+  }
 }
