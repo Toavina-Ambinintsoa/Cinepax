@@ -39,11 +39,11 @@ public class SeatService {
   }
 
   @Transactional
-  public Seat update(UUID id,Seat seat) {
+  public Seat update(UUID id, Seat seat) {
     try {
       getById(id);
       return seatRepository.save(seat);
-    }catch (Exception e) {
+    } catch (Exception e) {
       throw new NotFoundException("Seat not found: " + id);
     }
   }

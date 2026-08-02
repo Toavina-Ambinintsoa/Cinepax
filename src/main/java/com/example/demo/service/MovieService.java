@@ -39,11 +39,11 @@ public class MovieService {
   }
 
   @Transactional
-  public Movie update(UUID id,Movie movie) {
+  public Movie update(UUID id, Movie movie) {
     try {
       getById(id);
       return movieRepository.save(movie);
-    }catch (Exception e) {
+    } catch (Exception e) {
       throw new NotFoundException("Movie not found: " + id);
     }
   }

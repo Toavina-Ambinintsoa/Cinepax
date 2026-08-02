@@ -39,11 +39,11 @@ public class RoomService {
   }
 
   @Transactional
-  public Room update(UUID id,Room room) {
+  public Room update(UUID id, Room room) {
     try {
       getById(id);
       return roomRepository.save(room);
-    }catch (Exception e) {
+    } catch (Exception e) {
       throw new NotFoundException("Room not found: " + id);
     }
   }
