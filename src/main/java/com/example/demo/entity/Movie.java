@@ -28,5 +28,5 @@ public class Movie {
   private Duration duration;
 
   @OneToMany(mappedBy = "movie")
-  private List<Seat> seats = new ArrayList<>();
+  private List<Projection> projecions = new ArrayList<>();
 }
