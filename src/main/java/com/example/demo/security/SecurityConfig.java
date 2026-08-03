@@ -14,25 +14,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())          // pas de session navigateur -> pas besoin de CSRF
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/projections/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/movies/**").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.PUT, "/projections/**").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.GET, "/reservations").hasAnyRole("MANAGER", "EMPLOYEE")// routes ouvertes
-                        .anyRequest().authenticated()                // le reste demande d'être connecté
-                )
-                .httpBasic(Customizer.withDefaults());  // méthode d'authentification la plus simple
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.csrf(csrf -> csrf.disable()) // pas de session navigateur -> pas besoin de CSRF
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers("/public/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/projections/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/movies/**")
+                    .hasRole("MANAGER")
+                    .requestMatchers(HttpMethod.PUT, "/projections/**")
+                    .hasRole("MANAGER")
+                    .requestMatchers(HttpMethod.GET, "/reservations")
+                    .hasAnyRole("MANAGER", "EMPLOYEE") // routes ouvertes
+                    .anyRequest()
+                    .authenticated() // le reste demande d'être connecté
+            )
+        .httpBasic(Customizer.withDefaults()); // méthode d'authentification la plus simple
 
-        return http.build();
-    }
+    return http.build();
+  }
 }
