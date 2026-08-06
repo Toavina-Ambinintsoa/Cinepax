@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 @EnableWebSecurity
@@ -21,23 +22,24 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.csrf(csrf -> csrf.disable()) // pas de session navigateur -> pas besoin de CSRF
-        .authorizeHttpRequests(
-            auth ->
-                auth.requestMatchers("/public/**")
-                    .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/projections/**")
-                    .permitAll()
-                    .requestMatchers(HttpMethod.PUT, "/movies/**")
-                    .hasRole("MANAGER")
-                    .requestMatchers(HttpMethod.PUT, "/projections/**")
-                    .hasRole("MANAGER")
-                    .requestMatchers(HttpMethod.GET, "/reservations")
-                    .hasAnyRole("MANAGER", "EMPLOYEE") // routes ouvertes
-                    .anyRequest()
-                    .authenticated() // le reste demande d'être connecté
+    http.csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(
+                    auth ->
+                            auth.requestMatchers("/public/**")
+                                    .permitAll()
+                                    .requestMatchers(HttpMethod.GET, "/projections/**")
+                                    .permitAll()
+                                    .requestMatchers(HttpMethod.PUT, "/movies/**")
+                                    .hasRole("MANAGER")
+                                    .requestMatchers(HttpMethod.PUT, "/projections/**")
+                                    .hasRole("MANAGER")
+                                    .requestMatchers(HttpMethod.GET, "/reservations")
+                                    .hasAnyRole("MANAGER", "EMPLOYEE")
+                                    .anyRequest()
+                                    .authenticated()
             )
-        .httpBasic(Customizer.withDefaults()); // méthode d'authentification la plus simple
+            .httpBasic(Customizer.withDefaults());
 
     return http.build();
   }
