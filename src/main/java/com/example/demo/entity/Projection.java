@@ -1,11 +1,10 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +21,15 @@ public class Projection {
 
   private Instant datetime;
   private BigDecimal price;
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "movie_id", nullable = false)
+  private Movie movie;
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "room_id", nullable = false)
+  private Room room;
+
+  @OneToMany(mappedBy = "projection")
+  private Set<Reservation> reservations = new HashSet<>();
 }
