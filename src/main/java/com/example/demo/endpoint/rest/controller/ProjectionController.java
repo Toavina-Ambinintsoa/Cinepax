@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("projection")
-public class ProjectionRepository {
+public class ProjectionController {
   private final ProjectionService projectionService;
 
-  public ProjectionRepository(ProjectionService projectionService) {
+  public ProjectionController(ProjectionService projectionService) {
     this.projectionService = projectionService;
   }
 

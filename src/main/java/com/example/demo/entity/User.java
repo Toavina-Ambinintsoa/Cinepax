@@ -1,10 +1,7 @@
 package com.example.demo.entity;
 
 import com.example.demo.entity.Enum.UserRole;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -20,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "users")
 public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -31,6 +29,9 @@ public class User implements UserDetails {
   private String email;
   private String password;
   private String number;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "role")
   private UserRole role;
 
   @Override
