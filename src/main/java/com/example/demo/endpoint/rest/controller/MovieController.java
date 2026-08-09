@@ -2,6 +2,8 @@ package com.example.demo.endpoint.rest.controller;
 
 import com.example.demo.entity.Movie;
 import com.example.demo.service.MovieService;
+
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +22,10 @@ public class MovieController {
   @PutMapping("{id}")
   public ResponseEntity<Movie> updateMovie(@PathVariable UUID id, @RequestBody Movie movie) {
     return ResponseEntity.status(200).body(movieService.update(id, movie));
+  }
+  
+  @GetMapping()
+  public ResponseEntity<List<Movie>> getAllMovies() {
+    return ResponseEntity.status(200).body(movieService.getAll());
   }
 }
