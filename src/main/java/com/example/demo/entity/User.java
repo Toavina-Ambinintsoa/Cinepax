@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import com.example.demo.entity.Enum.UserRole;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +29,7 @@ public class User implements UserDetails {
   private String email;
   private String password;
   private String number;
+
   @Enumerated(EnumType.STRING)
   @Column(name = "role")
   private UserRole role;
